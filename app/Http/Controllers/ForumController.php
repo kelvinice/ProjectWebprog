@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 use App\Forum;
 use Illuminate\Http\Request;
 
@@ -39,8 +41,12 @@ class ForumController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Auth::check()){
+            return Redirect::back()->withErrors(['login'=>'Unautorized!']);
+        }
+
         $request->validate([
-            'name' => 'required|unique:forums|max:255',
+            'name' => 'required|unique:forums,name|max:255',
             'category' => 'required|integer',
             'description' => 'max:255'
         ]);
@@ -50,6 +56,8 @@ class ForumController extends Controller
         $forum->category_id = $request->category;
         $forum->description = $request->description;
         $forum->status = "Open";
+        $forum->user_id = Auth::user()->id;
+
         $forum->save();
         return redirect('/');
     }

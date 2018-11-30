@@ -18,3 +18,14 @@ Route::get('/', function () {
     return redirect('forums');
 });
 
+Route::get('/login', 'LoginController@goLogin');
+Route::get('/register', 'RegisterController@goRegister');
+
+Route::post('/doLogin', 'LoginController@doLogin');
+Route::post('/doLogout', 'LoginController@doLogout');
+Route::post('/doRegister', 'RegisterController@doRegister');
+
+//
+//Auth::routes();
+//
+//Route::get('/home', 'HomeController@index')->name('home');
