@@ -11,8 +11,8 @@
 |
 */
 
-Route::resource('categories','CategoryController');
 Route::resource('forums','ForumController');
+Route::resource('threads','ThreadController');
 
 Route::get('/', function () {
     return redirect('forums');
@@ -24,6 +24,24 @@ Route::get('/register', 'RegisterController@goRegister');
 Route::post('/doLogin', 'LoginController@doLogin');
 Route::post('/doLogout', 'LoginController@doLogout');
 Route::post('/doRegister', 'RegisterController@doRegister');
+
+Route::group(['middleware' => ['login']], function (){
+    Route::get('/profile/{id}','UserController@goProfile');
+    Route::resource('categories','CategoryController',['only' => [
+        'update','edit'
+    ]]);
+});
+
+Route::group(['middleware' => ['user']], function (){
+    Route::get('/editProfile/{id}','UserController@goUpdateProfile');
+});
+Route::group(['middleware' => ['admin']], function (){
+    Route::resource('categories','CategoryController');
+});
+
+
+
+
 
 //
 //Auth::routes();

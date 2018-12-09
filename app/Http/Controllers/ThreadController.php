@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Thread;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
-class CategoryController extends Controller
+class ThreadController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return view('masterCategory',compact('categories'));
+        //
     }
 
     /**
@@ -36,65 +37,61 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:categories|max:255',
-        ]);
+        $user_id = Auth::user()->id;
 
-        $category = new Category();
-        $category->name = $request->name;
-        $category->save();
+        $thread = new Thread();
+        $thread->forum_id =$request->forum_id;
+        $thread->user_id = $user_id;
+        $thread->content = $request->contents;
+        $thread->save();
 
-        return redirect('categories');
+        return back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Thread $thread)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $category = Category::find($id);
-
-        return view('editCategory',compact('category'));
+        $thread = Thread::find($id);
+        return view('updateThread',compact('thread'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $category = Category::find($id);
-        $category->name = $request->name;
-        $category->save();
-        return redirect('categories');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        Category::find($id)->delete();
-        return redirect('categories');
+        Thread::find($id)->delete();
+        return back();
     }
 }

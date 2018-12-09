@@ -1,3 +1,5 @@
+@include('')
+
 <html>
     <head>
         <title>Edit Category Page</title>
@@ -9,5 +11,4 @@
         Name <input type="text" name="name" placeholder="Name" value="{{$category->name}}"><br>
         <input type="submit" value="Update">
     </form>
-
 </html>

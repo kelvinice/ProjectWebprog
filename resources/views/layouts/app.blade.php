@@ -29,8 +29,13 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        dIV Forum
+                        Hello,
+                        @guest Guest
+                        @else  {{ Auth::user()->name }}
+                        @endguest
+                            <span>Time : {{Carbon\Carbon::now()}}</span>
                     </a>
+
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -53,13 +58,31 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="/doLogout"
+                                        <a href="/"
+                                           onclick="event.preventDefault();
+                                                     document.getElementById('profile-form').submit();">
+                                            Profile
+                                        </a>
+                                        @if(\Illuminate\Support\Facades\Auth::user()->role == "admin")
+                                            <a href="/"
+                                               onclick="event.preventDefault();
+                                                     document.getElementById('categories-form').submit();">
+                                                All Categories
+                                            </a>
+                                        @endif
+                                        <a href="/"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
 
                                         <form id="logout-form" action="/doLogout" method="post" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                        <form id="categories-form" action="/categories" method="get" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                        <form id="profile-form" action="/profile/{{Auth::user()->id}}" method="get" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
                                     </li>

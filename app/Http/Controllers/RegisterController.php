@@ -84,22 +84,28 @@ class RegisterController extends Controller
 
     public function doRegister(Request $request){
         $rules  = [
-            'name' => 'required',
+            'name' => 'required|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed',
+            'password' => 'required|confirmed|min:6',
             'phone' => 'required|numeric',
             'gender' => 'required',
             'address' => ['required', new AddressRule],
             'birthday' => 'required|date|date_format:m/d/Y|before:12 years ago',
             'agree' => 'accepted',
+            'profile' => 'required|mimes:jpeg,jpg,png'
         ];
 
         $this->validate($request,$rules);
 
         $email = $request->email;
 
-        $fileName = $email.'.'.request()->profile->getClientOriginalExtension();
-        $request->profile->storeAs('profile',$fileName);
+        $image = $request->file('profile');
+        $name = $email.'.'.$image->getClientOriginalExtension();
+        $dest = 'images/';
+        $image->move($dest, $name);
+
+//        $fileName = $email.'.'.request()->profile->getClientOriginalExtension();
+//        $request->profile->storeAs('profile',$fileName);
 
         $user = new User();
         $user->name = $request->name;
@@ -109,7 +115,7 @@ class RegisterController extends Controller
         $user->gender = $request->gender;
         $user->address = $request->address;
         $user->birthday = date('Y-m-d', strtotime($request->birthday));
-        $user->profile = $fileName;
+        $user->profile = $name;
 
         $user->save();
 

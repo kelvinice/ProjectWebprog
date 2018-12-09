@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Thread;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use App\Forum;
@@ -70,7 +71,10 @@ class ForumController extends Controller
      */
     public function show($id)
     {
-        //
+        $forum = Forum::with('category','user')->first();
+        $threads = Thread::with('user')->where('forum_id',$forum->id)->paginate(5);
+
+        return view('forumThread',compact('forum','threads'));
     }
 
     /**
