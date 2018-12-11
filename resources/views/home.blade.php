@@ -41,8 +41,7 @@
                                     <td>{{$forum->description}}</td>
                                     <td>{{$forum->status}}</td>
                                     <td>
-                                        <form action="forums/{{$forum->id}}" method="get">
-                                            {{csrf_field()}}
+                                        <form action="/forums/{{$forum->id}}" method="get">
                                             <input type="submit" value="Detail">
                                         </form>
                                     </td>

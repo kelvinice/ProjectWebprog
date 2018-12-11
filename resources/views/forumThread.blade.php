@@ -16,7 +16,7 @@
                         <br>Status : {{$forum->status}}
                         <br><br>
 
-                        <form action="forums" method="get">
+                        <form action="/forums/{{$forum->id}}" method="get">
                             {{csrf_field()}}
                             <input type="text" name="search" placeholder="Search"><br>
                             <input type="submit" value="Search">
@@ -36,17 +36,19 @@
                             Role : {{$thread->user->role}}<br>
                             Posted At : {{$thread->created_at}}<br>
                             {{$thread->content}}
-                            @if(\Illuminate\Support\Facades\Auth::user()->id == $thread->user_id)
-                                <form action="/threads/{{$thread->id}}/edit" method="get">
-                                    {{csrf_field()}}
-                                    <input type="submit" value="Edit">
-                                </form>
-                                <form action="/threads/{{$thread->id}}" method="post">
-                                    {{csrf_field()}}
-                                    {{method_field('delete')}}
-                                    <input type="submit" value="Delete">
-                                </form>
-                            @endif
+                            @auth()
+                                @if(\Illuminate\Support\Facades\Auth::user()->id == $thread->user_id)
+                                    <form action="/threads/{{$thread->id}}/edit" method="get">
+                                        {{csrf_field()}}
+                                        <input type="submit" value="Edit">
+                                    </form>
+                                    <form action="/threads/{{$thread->id}}" method="post">
+                                        {{csrf_field()}}
+                                        {{method_field('delete')}}
+                                        <input type="submit" value="Delete">
+                                    </form>
+                                @endif
+                            @endauth
 
                             <br>
                             <br>

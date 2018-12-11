@@ -29,28 +29,79 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        Hello,
-                        @guest Guest
-                        @else  {{ Auth::user()->name }}
-                        @endguest
-                            <span>Time : {{Carbon\Carbon::now()}}</span>
+                        dIV Forum
                     </a>
+
 
                 </div>
 
+
+
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
+                    <ul class="nav navbar-nav" style="margin: auto">
+                        <li>
+                            <a>
+                                Hello,
+                                @guest Guest
+                                @else  {{ Auth::user()->name }}
+                                @endguest
+                                <span>Time : {{Carbon\Carbon::now()}}</span>
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
+
                         @guest
                             <li><a href="/login">Login</a></li>
                             <li><a href="/register">Register</a></li>
                         @else
+                            <li class="info">
+                                <a href="/myForum" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                    MyForum
+                                </a>
+                            </li>
+                            <li class="info">
+                                <a href="/messages" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                    Inbox
+                                </a>
+                            </li>
+
+
+                            @if(Auth::user()->role == "admin")
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                    Master <span class="caret"></span>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/"
+                                               onclick="event.preventDefault();
+                                                     document.getElementById('profile-form').submit();">
+                                                Master User
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/"
+                                               onclick="event.preventDefault();
+                                                     document.getElementById('profile-form').submit();">
+                                                Master Category
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/"
+                                               onclick="event.preventDefault();
+                                                     document.getElementById('profile-form').submit();">
+                                                Master Forum
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </a>
+                            </li>
+                            @endif
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -75,7 +126,6 @@
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
-
                                         <form id="logout-form" action="/doLogout" method="post" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
@@ -85,6 +135,7 @@
                                         <form id="profile-form" action="/profile/{{Auth::user()->id}}" method="get" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
+
                                     </li>
                                 </ul>
                             </li>
@@ -97,7 +148,12 @@
         @yield('content')
     </div>
 
+
+
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
+
+

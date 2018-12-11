@@ -8,8 +8,9 @@
                     <div class="panel-heading">Register</div>
 
                     <div class="panel-body">
-                        <form class="form-horizontal" method="POST" action="/doRegister" enctype="multipart/form-data">
+                        <form class="form-horizontal" method="POST" action="/updateProfile/{{$user->id}}" enctype="multipart/form-data">
                             {{ csrf_field() }}
+                            {{method_field('put')}}
 
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name" class="col-md-4 control-label">Name</label>
@@ -88,6 +89,8 @@
                                     @endif
                                 </div>
                             </div>
+
+                            <input type="hidden" name="role" value="{{$user->role}}">
 
                             <div class="form-group {{ $errors->has('birthday') ? ' has-error' : '' }}">
                                 <label for="birthday" class="col-md-4 control-label">Birthday</label>

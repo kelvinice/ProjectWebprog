@@ -28,6 +28,8 @@ class AddressRule implements Rule
     {
 //        $len = strlen($value);
         $a = false;
+        $value = strtolower($value);
+
         if(Str::endsWith($value, 'street')){
             $a = true;
         }
@@ -44,6 +46,6 @@ class AddressRule implements Rule
      */
     public function message()
     {
-        return 'Address Must be end with "street".';
+        return 'Address Must be end with "Street".';
     }
 }

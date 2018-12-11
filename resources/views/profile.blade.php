@@ -8,26 +8,48 @@
                     <div class="panel-heading">Profile</div>
                         <img src={{ URL::to('/') }}/images/{{$user->profile}}>
                         Name : {{$user->email}} <br>
-                        Popularity : <br>
+                        Popularity :
+                        <span style="background-color: lime">+{{$plus}}</span>
+                        <span style="background-color: red">-{{$minus}}</span>
+                        <br>
                         Phone : {{$user->phone}} <br>
                         Birthday : {{$user->birthday}}<br>
                         Gender : {{$user->gender}}<br>
                         Address : {{$user->address}}<br>
-
                     @auth
-
                         @if(Auth::user()->id==$user->id)
                             <form action="/editProfile/{{$user->id}}" method="get">
                                 {{csrf_field()}}
                                 <input type="submit" value="Edit">
                             </form>
                         @else
-                            <form action="">
+                            <div>
+                                Give Popularity
+                                <form action="/popularities" method="post">
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="target" value="{{$user->id}}">
+                                    <input type="hidden" name="value" value="1">
+                                    <input type="submit" value="plus">
+                                </form>
+                                <form action="/popularities" method="post">
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="target" value="{{$user->id}}">
+                                    <input type="hidden" name="value" value="-1">
+                                    <input type="submit" value="minus">
+                                </form>
+                            </div>
+
+                            <form action="/messages" method="post">
+                                {{csrf_field()}}
+                                <input type="hidden" name="receiver" value="{{$user->id}}">
                                 Message :<br>
                                 <textarea name="message" id="message" cols="100" rows="5"></textarea>
                                 <br>
                                 <input type="submit" value="Send">
                             </form>
+                            <span class="help-block" style="color: red">
+                                <strong>{{ $errors->first() }}</strong>
+                            </span>
                         @endif
                     @endauth
                 </div>

@@ -13,6 +13,8 @@
 
 Route::resource('forums','ForumController');
 Route::resource('threads','ThreadController');
+Route::resource('messages','MessageController');
+Route::resource('popularities','PopularityController');
 
 Route::get('/', function () {
     return redirect('forums');
@@ -30,16 +32,16 @@ Route::group(['middleware' => ['login']], function (){
     Route::resource('categories','CategoryController',['only' => [
         'update','edit'
     ]]);
+    Route::get('/myForum','ForumController@showMyForum');
 });
 
 Route::group(['middleware' => ['user']], function (){
     Route::get('/editProfile/{id}','UserController@goUpdateProfile');
+    Route::put('/updateProfile/{id}','UserController@update');
 });
 Route::group(['middleware' => ['admin']], function (){
     Route::resource('categories','CategoryController');
 });
-
-
 
 
 

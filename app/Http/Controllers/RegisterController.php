@@ -104,9 +104,6 @@ class RegisterController extends Controller
         $dest = 'images/';
         $image->move($dest, $name);
 
-//        $fileName = $email.'.'.request()->profile->getClientOriginalExtension();
-//        $request->profile->storeAs('profile',$fileName);
-
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -116,6 +113,7 @@ class RegisterController extends Controller
         $user->address = $request->address;
         $user->birthday = date('Y-m-d', strtotime($request->birthday));
         $user->profile = $name;
+        $user->role = "member";
 
         $user->save();
 

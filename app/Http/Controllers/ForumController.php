@@ -69,12 +69,17 @@ class ForumController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,Request $request)
     {
-        $forum = Forum::with('category','user')->first();
-        $threads = Thread::with('user')->where('forum_id',$forum->id)->paginate(5);
+        $forum = Forum::with('category','user')->find($id);
+        $threads = Thread::with('user')->where([['forum_id',$forum->id],['content','like','%'.$request->search.'%']])->paginate(5);
 
         return view('forumThread',compact('forum','threads'));
+    }
+
+    public function showMyForum(){
+        $forums = Forum::where('user_id',Auth::user()->id)->paginate(5);
+        return view('myForum',compact('forums'));
     }
 
     /**
@@ -108,6 +113,7 @@ class ForumController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Forum::find($id)->delete();
+        return back();
     }
 }
