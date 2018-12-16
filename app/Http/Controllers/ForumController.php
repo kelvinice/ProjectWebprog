@@ -16,11 +16,16 @@ class ForumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function home(Request $request){
         $search = $request->search;
         $forums = Forum::with('category')->where('name','like','%'.$search.'%')->paginate(5);
         return view('home',compact('forums'));
+    }
+
+    public function index(Request $request)
+    {
+        $forums = Forum::with('user','category')->paginate(10);
+        return view('masterForum',compact('forums'));
     }
 
     /**
@@ -102,7 +107,11 @@ class ForumController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $forum = Forum::find($id);
+        $forum->status="Closed";
+        $forum->save();
+
+        return back();
     }
 
     /**

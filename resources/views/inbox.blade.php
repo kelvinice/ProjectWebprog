@@ -16,7 +16,6 @@
                             <br>
                             {{$message->created_at}}
                         </div>
-
                         {{$message->content}}
                     </div>
                     @endforeach

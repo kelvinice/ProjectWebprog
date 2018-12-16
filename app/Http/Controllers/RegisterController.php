@@ -113,7 +113,7 @@ class RegisterController extends Controller
         $user->address = $request->address;
         $user->birthday = date('Y-m-d', strtotime($request->birthday));
         $user->profile = $name;
-        $user->role = "member";
+        $user->role = $request->role;
 
         $user->save();
 

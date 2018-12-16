@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -34,8 +35,6 @@
 
 
                 </div>
-
-
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
@@ -74,30 +73,39 @@
                             @if(Auth::user()->role == "admin")
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                    Master <span class="caret"></span>
+                                    Master <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="/"
+                                            <a href=""
                                                onclick="event.preventDefault();
-                                                     document.getElementById('profile-form').submit();">
+                                                     document.getElementById('master-user-form').submit();">
                                                 Master User
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/"
+                                            <a href=""
                                                onclick="event.preventDefault();
-                                                     document.getElementById('profile-form').submit();">
+                                                     document.getElementById('master-category-form').submit();">
                                                 Master Category
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/"
+                                            <a href=""
                                                onclick="event.preventDefault();
-                                                     document.getElementById('profile-form').submit();">
+                                                     document.getElementById('master-forum-form').submit();">
                                                 Master Forum
                                             </a>
                                         </li>
                                     </ul>
+                                    <form id="master-user-form" action="/users" method="get" style="display: none;">
+
+                                    </form>
+                                    <form id="master-category-form" action="/categories" method="get" style="display: none;">
+
+                                    </form>
+                                    <form id="master-forum-form" action="/forums" method="get" style="display: none;">
+
+                                    </form>
 
                                 </a>
                             </li>

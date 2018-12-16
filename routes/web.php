@@ -16,9 +16,7 @@ Route::resource('threads','ThreadController');
 Route::resource('messages','MessageController');
 Route::resource('popularities','PopularityController');
 
-Route::get('/', function () {
-    return redirect('forums');
-});
+Route::get('/', 'ForumController@home');
 
 Route::get('/login', 'LoginController@goLogin');
 Route::get('/register', 'RegisterController@goRegister');
@@ -41,11 +39,7 @@ Route::group(['middleware' => ['user']], function (){
 });
 Route::group(['middleware' => ['admin']], function (){
     Route::resource('categories','CategoryController');
+    Route::resource('users', 'UserController')->only([
+        'index','create','destroy','edit','update'
+    ]);
 });
-
-
-
-//
-//Auth::routes();
-//
-//Route::get('/home', 'HomeController@index')->name('home');

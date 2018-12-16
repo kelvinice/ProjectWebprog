@@ -6,6 +6,7 @@ use App\Popularity;
 use App\Rules\AddressRule;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -14,11 +15,33 @@ class UserController extends Controller
         $user = User::find($id);
         $plus = Popularity::where([['receiver',$id],['value',1]])->get()->count();
         $minus = Popularity::where([['receiver',$id],['value',-1]])->get()->count();
-        return view('profile',compact('user','plus','minus'));
+        $vote = "not";
+        $popularity = Popularity::where([['sender',Auth::user()->id],['receiver',$id]])->first();
+        if($popularity != null)$vote = "done";
+        return view('profile',compact('user','plus','minus','vote'));
     }
     public function goUpdateProfile($id){
         $user = User::find($id);
         return view('editProfile',compact('user'));
+    }
+
+    public function edit($id){
+        $user = User::find($id);
+        return view ('updateUser',compact('user'));
+    }
+
+    public function index(){
+        $users = User::paginate(5);
+        return view('masterUser',['users' => $users]);
+    }
+
+    public function destroy($id){
+        User::find($id)->delete();
+        return back();
+    }
+
+    public function create(){
+        return view('addUser');
     }
 
     public function update(Request $request, $id)

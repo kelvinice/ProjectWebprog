@@ -9,7 +9,7 @@
 
                 <div class="panel-body">
                         Search
-                        <form action="forums" method="get">
+                        <form action="/" method="get">
                             {{csrf_field()}}
                             Name <input type="text" name="search" placeholder="Name"><br>
                             <input type="submit" value="Search">
